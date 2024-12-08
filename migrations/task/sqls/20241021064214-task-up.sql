@@ -40,7 +40,7 @@ WHERE email = 'starplatinum@hexschooltest.io';
 DELETE FROM "USER"
 WHERE email = 'opcatiy0@hexschooltest.io';
 -- 1-4 查詢：取得USER 資料表目前所有用戶數量（提示：使用count函式）
-SELECT COUNT(*) FROM "USER"
+SELECT COUNT(*) FROM "USER";
 -- 1-5 查詢：取得 USER 資料表所有用戶資料，並列出前 3 筆（提示：使用limit語法）
 SELECT * FROM "USER"
 LIMIT 3;
@@ -135,6 +135,7 @@ VALUES
 (select id from "COACH" where user_id = (select id from "USER" where email = 'muscle@hexschooltest.io')),
 (select id from "SKILL" where name = '重訓')
 );
+
 INSERT INTO
 	"COACH_LINK_SKILL" (coach_id, skill_id) 
 VALUES
@@ -142,6 +143,7 @@ VALUES
 (select id from "COACH" where user_id = (select id from "USER" where email = 'starplatinum@hexschooltest.io')),
 (select id from "SKILL" where name = '重訓')
 );
+
 INSERT INTO
 	"COACH_LINK_SKILL" (coach_id, skill_id) 
 VALUES
@@ -149,6 +151,7 @@ VALUES
 (select id from "COACH" where user_id = (select id from "USER" where email = 'muscle@hexschooltest.io')),
 (select id from "SKILL" where name = '瑜伽')
 );
+
 INSERT INTO
 	"COACH_LINK_SKILL" (coach_id, skill_id) 
 VALUES
@@ -156,6 +159,7 @@ VALUES
 (select id from "COACH" where user_id = (select id from "USER" where email = 'starplatinum@hexschooltest.io')),
 (select id from "SKILL" where name = '有氧運動')
 );
+
 INSERT INTO
 	"COACH_LINK_SKILL" (coach_id, skill_id) 
 VALUES
