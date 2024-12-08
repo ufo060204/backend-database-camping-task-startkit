@@ -37,11 +37,13 @@ UPDATE "USER"
 SET ROLE = 'COACH'
 WHERE email = 'starplatinum@hexschooltest.io';
 -- 1-3 刪除：刪除USER 資料表中，用 Email 找到透明人，並刪除該筆資料
-
+DELETE FROM "USER"
+WHERE email = 'opcatiy0@hexschooltest.io';
 -- 1-4 查詢：取得USER 資料表目前所有用戶數量（提示：使用count函式）
-
+SELECT COUNT(*) FROM "USER"
 -- 1-5 查詢：取得 USER 資料表所有用戶資料，並列出前 3 筆（提示：使用limit語法）
-
+SELECT * FROM "USER"
+LIMIT 3;
 
 --  ████████  █████   █    ████  
 --    █ █   ██    █  █         █ 
@@ -54,11 +56,39 @@ WHERE email = 'starplatinum@hexschooltest.io';
     -- 1. 名稱為 `7 堂組合包方案`，價格為`1,400` 元，堂數為`7`
     -- 2. 名稱為`14 堂組合包方案`，價格為`2,520` 元，堂數為`14`
     -- 3. 名稱為 `21 堂組合包方案`，價格為`4,800` 元，堂數為`21`
-
+INSERT INTO "CREDIT_PACKAGE" 
+	(name, credit_amount, price) 
+VALUES
+	('7 堂組合包方案', 7, 1400),
+	('14 堂組合包方案', 14, 2520),
+	('21 堂組合包方案', 21, 4800);
 -- 2-2. 新增：在 `CREDIT_PURCHASE` 資料表，新增三筆資料：（請使用 name 欄位做子查詢）
     -- 1. `王小明` 購買 `14 堂組合包方案`
     -- 2. `王小明` 購買 `21 堂組合包方案`
     -- 3. `好野人` 購買 `14 堂組合包方案`
+INSERT INTO "CREDIT_PURCHASE" 
+	(user_id, credit_package_id, purchased_credits, price_paid) 
+VALUES
+	((select id from "USER" where email = 'wXlTq@hexschooltest.io'),
+	(select id from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
+	(select credit_amount from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
+	(select price from "CREDIT_PACKAGE" where name = '14 堂組合包方案'));
+
+INSERT INTO "CREDIT_PURCHASE" 
+	(user_id, credit_package_id, purchased_credits, price_paid) 
+VALUES
+	((select id from "USER" where email = 'wXlTq@hexschooltest.io'),
+	(select id from "CREDIT_PACKAGE" where name = '21 堂組合包方案'),
+	(select credit_amount from "CREDIT_PACKAGE" where name = '21 堂組合包方案'),
+	(select price from "CREDIT_PACKAGE" where name = '21 堂組合包方案'));
+
+INSERT INTO "CREDIT_PURCHASE" 
+	(user_id, credit_package_id, purchased_credits, price_paid) 
+VALUES
+	((select id from "USER" where email = 'richman@hexschooltest.io'),
+	(select id from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
+	(select credit_amount from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
+	(select price from "CREDIT_PACKAGE" where name = '14 堂組合包方案'));
 
 
 -- ████████  █████   █    ████   
@@ -72,18 +102,86 @@ WHERE email = 'starplatinum@hexschooltest.io';
     -- 1. 將用戶`李燕容`新增為教練，並且年資設定為2年（提示：使用`李燕容`的email ，取得 `李燕容` 的 `id` ）
     -- 2. 將用戶`肌肉棒子`新增為教練，並且年資設定為2年
     -- 3. 將用戶`Q太郎`新增為教練，並且年資設定為2年
+INSERT INTO "COACH" 
+	(user_id, experience_years) 
+VALUES
+	((select id from "USER" where email = 'lee2000@hexschooltest.io'), 2)
 
+INSERT INTO "COACH" 
+	(user_id, experience_years) 
+VALUES
+	((select id from "USER" where email = 'muscle@hexschooltest.io'), 2)
+
+INSERT INTO "COACH" 
+	(user_id, experience_years) 
+VALUES
+	((select id from "USER" where email = 'starplatinum@hexschooltest.io'), 2)
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
     -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
     -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
+INSERT INTO
+	"COACH_LINK_SKILL" (coach_id, skill_id) 
+VALUES
+(
+(select id from "COACH" where user_id = (select id from "USER" where email = 'lee2000@hexschooltest.io')),
+(select id from "SKILL" where name = '重訓')
+);
 
+INSERT INTO
+	"COACH_LINK_SKILL" (coach_id, skill_id) 
+VALUES
+(
+(select id from "COACH" where user_id = (select id from "USER" where email = 'muscle@hexschooltest.io')),
+(select id from "SKILL" where name = '重訓')
+);
+INSERT INTO
+	"COACH_LINK_SKILL" (coach_id, skill_id) 
+VALUES
+(
+(select id from "COACH" where user_id = (select id from "USER" where email = 'starplatinum@hexschooltest.io')),
+(select id from "SKILL" where name = '重訓')
+);
+INSERT INTO
+	"COACH_LINK_SKILL" (coach_id, skill_id) 
+VALUES
+(
+(select id from "COACH" where user_id = (select id from "USER" where email = 'muscle@hexschooltest.io')),
+(select id from "SKILL" where name = '瑜伽')
+);
+INSERT INTO
+	"COACH_LINK_SKILL" (coach_id, skill_id) 
+VALUES
+(
+(select id from "COACH" where user_id = (select id from "USER" where email = 'starplatinum@hexschooltest.io')),
+(select id from "SKILL" where name = '有氧運動')
+);
+INSERT INTO
+	"COACH_LINK_SKILL" (coach_id, skill_id) 
+VALUES
+(
+(select id from "COACH" where user_id = (select id from "USER" where email = 'starplatinum@hexschooltest.io')),
+(select id from "SKILL" where name = '復健訓練')
+);
 -- 3-3 修改：更新教練的經驗年數，資料需求如下：
     -- 1. 教練`肌肉棒子` 的經驗年數為3年
     -- 2. 教練`Q太郎` 的經驗年數為5年
+UPDATE "COACH"
+set experience_years = 3
+where user_id = (
+select id
+from "USER"
+where email = 'muscle@hexschooltest.io');
 
+UPDATE "COACH"
+set experience_years = 5
+where user_id = (
+select id
+from "USER"
+where email = 'starplatinum@hexschooltest.io');
 -- 3-4 刪除：新增一個專長 空中瑜伽 至 SKILL 資料表，之後刪除此專長。
-
+INSERT INTO "SKILL" (name) values ('空中瑜伽');
+delete from "SKILL" where name = '空中瑜伽';
 
 --  ████████  █████   █    █   █ 
 --    █ █   ██    █  █     █   █ 
@@ -101,7 +199,18 @@ WHERE email = 'starplatinum@hexschooltest.io';
     -- 5. 授課結束時間`end_at`設定為2024-11-25 16:00:00
     -- 6. 最大授課人數`max_participants` 設定為10
     -- 7. 授課連結設定`meeting_url`為 https://test-meeting.test.io
-
+INSERT INTO 
+	"COURSE" 
+(user_id, skill_id, name, start_at, end_at, max_participants, meeting_url) 
+VALUES
+	((select id from "USER" where email = 'lee2000@hexschooltest.io'),
+		(select id from "SKILL" where name = '重訓'),
+		'重訓基礎課',
+		'2024-11-25 14:00:00',
+		'2024-11-25 16:00:00',
+		10,
+		'https://test-meeting.test.io'
+	);
 
 -- ████████  █████   █    █████ 
 --   █ █   ██    █  █     █     
