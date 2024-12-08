@@ -28,6 +28,14 @@ VALUES
 UPDATE "USER"
 SET ROLE = 'COACH'
 WHERE email = 'lee2000@hexschooltest.io';
+
+UPDATE "USER"
+SET ROLE = 'COACH'
+WHERE email = 'muscle@hexschooltest.io';
+
+UPDATE "USER"
+SET ROLE = 'COACH'
+WHERE email = 'starplatinum@hexschooltest.io';
 -- 1-3 刪除：刪除USER 資料表中，用 Email 找到透明人，並刪除該筆資料
 
 -- 1-4 查詢：取得USER 資料表目前所有用戶數量（提示：使用count函式）
